@@ -1,0 +1,19 @@
+-- Active: 1752499850330@@127.0.0.1@3306@mydb
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    psw VARCHAR(100)
+);
+
+CREATE TABLE user_tags(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    tag_id INT
+);
+
+CREATE TABLE tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tag_name VARCHAR(200),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
