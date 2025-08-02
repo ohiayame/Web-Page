@@ -1,67 +1,76 @@
-import { useRef, useState } from 'react';
-import TodoList from "./TodoList";
+import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from "uuid";
+import { useState } from 'react';
+import { addPost, deletePost } from './features/Posts';
 
 function App() {
-  // todoList의 useState() 선언
-  const [ todos, setTodos ] = useState([]);
+  // 제목의 useState()
+  const [title, setTitle] = useState("");
+  // 내용의 useState()
+  const [content, setContent] = useState("");
+  // useSelector()로 store(posts의 initialState.value)에 접근
+  const postList = useSelector((state) => state.posts.value);
+  // dispatch선언
+  const dispatch = useDispatch();
 
-  // 입력내용 저장 변수 선언 useRef()
-  const todoNameRef = useRef();
+  // 개시물을 추가
+  const handleAddPost = () => {
+    // 내용이 없으면 무시
+    if(title === "" || content === "") return;
 
-
-  // 1) 항목 추가
-  const handleAddTodo = () => {
-    // 내용 -> 내용변수.current.value 로 대입
-    const name = todoNameRef.current.value;
-    // 만약 내용이 없으면 return
-    if(name === "") return;
-
-    // 마지막에 set {id: uuid사용(uuidv4()), name: 내용, completed: false}
-    setTodos((prevTodos) => {
-      return [...prevTodos, {id: uuidv4(), name: name, completed: false}]
-    });
-
-    // todoNameRef값 초기화
-    todoNameRef.current.value = null;
-  }
-  
-  // 2) checkbox관리
-    // 매개변수로 id받기
-  const toggleTodo = (id) =>{
-    // todoList복사
-    const newTodos = [...todos];
-    // 복사본에서 동일 id를 가지는 항복을 find()
-    const todo = newTodos.find((todo) => todo.id === id);
-    // 해당 항목의 completed를 반전
-    todo.completed = !todo.completed;
-    // 수정한 복사본을 set
-    setTodos(newTodos);
+    // dispatch로 addPost(id, title, content) -> title, content 초기화
+    dispatch(
+      addPost({
+        id: uuidv4(),
+        title: title,
+        content: content
+      })
+    );
+    setTitle("");
+    setContent("");
   }
 
-  // 3) 항목 삭제
-  const handleClear = () => {
-    // completed가 false인 값만 추출하여 set
-    const newTodos = todos.filter((todo) => !todo.completed);
-    setTodos(newTodos);
-  }
-
-
-  return (
+  return(
     <div>
-      {/* todoList 컨포넌트 (todoList과 checkbox관리를 전달) */}
-      <TodoList todos={todos} toggleTodo={toggleTodo} />
+      <div>
+        <h1>개시판</h1>
+      </div>
 
-      {/* 입력 창 / ref-> 내용 */}
-      <input type='text' ref={todoNameRef} />
-      {/* 저장 버튼 onClick-> (1) */}
-      <button onClick={handleAddTodo}>Add</button>
-      {/* 완료된 항목 삭제 onClick-> (3) */}
-      <button onClick={handleClear}>delete</button>
-      {/* 나머지 항목 개수 출력 / filter()로 completed가 false인 length */}
-      <div>나머지 : {todos.filter((todo) => !todo.completed).length}</div>
+      <div className='addPost'>
+        {/* 제목 */}
+        <input
+          type='text'
+          placeholder='title'
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        {/* 내용 */}
+        <input 
+          type='text'
+          placeholder='content'
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        {/* 저장 버튼 */}
+        <button onClick={() => handleAddPost()}>upLoad</button>
+        <hr />
+      </div>
+
+      {/* 출력 */}
+      <div className='displayPosts'>
+        {postList.map((post) =>(
+          <div className='post' key={post.id}>
+            <h1 className='postName'>{post.title}</h1>
+            <h1 className='postContent'>{post.content}</h1>
+            <button onClick={() => dispatch(deletePost({id: post.id}))}>
+              delete
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
