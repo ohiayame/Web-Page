@@ -2,37 +2,46 @@ import React, { useState, useEffect } from "react";
 import api from "./api/api";
 
 function App() {
-  const [videos, setVideos] = useState([]);
+  const [channels, setChannel] = useState([]);
+  const [search_q, setSearch] = useState([]);
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const response = await api.get("/search", {
-          params: {
-            q: "영진전문대학교",
-          },
-        });
-        setVideos(response.data.items);
-      } catch (error) {
-        console.error("Error fetching videos:", error);
-      }
-    };
+  const fetchVideos = async () => {
+    try {
+      const response = await api.get("/search", {
+        params: {
+          q: search_q,
+        },
+      });
+      setChannel(response.data.items);
+    } catch (error) {
+      console.error("Error fetching videos:", error);
+    }
+  };
 
-    fetchVideos();
-  }, []);
+  const handleChannel = (channelId) => {
+    console.log(channelId);
+  };
 
-  console.log(videos);
+  console.log(channels);
   return (
     <div>
       <h2>YouTube Clone</h2>
+      <input
+        value={search_q}
+        onChange={(e) => setSearch(e.target.value)}
+      ></input>
+      <button onClick={fetchVideos}>검색</button>
       <ul>
-        {videos.map((video) => (
-          <li key={video.id.videoId}>
+        {channels.map((channel) => (
+          <li key={channel.id.videoId}>
             <img
-              src={video.snippet.thumbnails.medium.url}
-              alt={video.snippet.title}
+              src={channel.snippet.thumbnails.medium.url}
+              alt={channel.snippet.title}
             />
-            <p>{video.snippet.title}</p>
+            <p>{channel.snippet.channelTitle}</p>
+            <button onClick={() => handleChannel(channel.snippet.channelId)}>
+              MyList 추가
+            </button>
           </li>
         ))}
       </ul>
