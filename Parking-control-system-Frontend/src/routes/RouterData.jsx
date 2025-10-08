@@ -16,6 +16,6 @@ export const RouterData = [
   {
     title: "CarInfo",
     element: <CarInfo />,
-    link: "/admin/carInfo",
+    link: "/admin/carInfo/:carId",
   },
 ];

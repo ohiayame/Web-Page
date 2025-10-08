@@ -1,0 +1,78 @@
+.parking-lot {
+  position: relative;
+  width: 1600px;
+  height: 980px;
+  border: 2px solid black;
+  background: #f4f8ff;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slot {
+  padding-top: 3px;
+  font-size: 50px;
+  border: 3px solid black;
+  background: #eee;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  width: 120px;
+  height: 175px;
+}
+.slot-a {
+  padding-left: 5px;
+  font-size: 50px;
+  border: 3px solid black;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  width: 180px;
+  height: 100px;
+}
+
+.area-a {
+  position: absolute;
+  right: 0;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.area-b,
+.area-c {
+  position: absolute;
+  top: 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.area-b {
+  right: 580px;
+}
+.area-c {
+  left: 280px;
+}
+
+.area-d {
+  position: absolute;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  left: 150px;
+}
+
+.arrow {
+  position: absolute;
+  top: 5px;
+  font-size: 40px;
+}
+
+.arrow.left {
+  left: 80px;
+}
+.arrow.right {
+  right: 280px;
+}

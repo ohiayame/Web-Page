@@ -1,14 +1,20 @@
 import Header from "@/layouts/Header";
 
 function Layout({ navUrl, val, children }) {
-  console.log("navUrl");
+
   return (
-    <>
+    <div
+      style={{
+        backgroundColor: "#eaf1fdff",
+        padding: "3px",
+        minHeight: "1074px",
+      }}
+    >
       {/* 페이지 이동 버튼 */}
       <Header navUrl={navUrl} val={val} />
 
-      <main style={{ backgroundColor: "#ffdaf9ff" }}>{children}</main>
-    </>
+      <main>{children}</main>
+    </div>
   );
 }
 
