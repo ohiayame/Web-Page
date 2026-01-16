@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>성적 처리 프로그램</title>
+  </head>
+  <body>
+    <h2>성적 처리 프로그램</h2>
+
+    <table border="1" id="myTable">
+      <tr>
+        <th>학번</th>
+        <th>이름</th>
+        <th>국어</th>
+        <th>영어</th>
+        <th>수학</th>
+        <th>총점</th>
+        <th>평균</th>
+      </tr>
+
+      <!-- 학생 1 -->
+      <tr>
+        <td><input id="id1" /></td>
+        <td><input id="name1" /></td>
+        <td><input id="kor1" /></td>
+        <td><input id="eng1" /></td>
+        <td><input id="math1" /></td>
+        <td><input id="total1" readonly /></td>
+        <td><input id="avg1" readonly /></td>
+      </tr>
+
+      <!-- 학생 2 -->
+      <tr>
+        <td><input id="id2" /></td>
+        <td><input id="name2" /></td>
+        <td><input id="kor2" /></td>
+        <td><input id="eng2" /></td>
+        <td><input id="math2" /></td>
+        <td><input id="total2" readonly /></td>
+        <td><input id="avg2" readonly /></td>
+      </tr>
+
+      <!-- 학생 3 -->
+      <tr>
+        <td><input id="id3" /></td>
+        <td><input id="name3" /></td>
+        <td><input id="kor3" /></td>
+        <td><input id="eng3" /></td>
+        <td><input id="math3" /></td>
+        <td><input id="total3" readonly /></td>
+        <td><input id="avg3" readonly /></td>
+      </tr>
+
+      <!-- 학생 4 -->
+      <tr>
+        <td><input id="id4" /></td>
+        <td><input id="name4" /></td>
+        <td><input id="kor4" /></td>
+        <td><input id="eng4" /></td>
+        <td><input id="math4" /></td>
+        <td><input id="total4" readonly /></td>
+        <td><input id="avg4" readonly /></td>
+      </tr>
+
+      <!-- 학생 5 -->
+      <tr>
+        <td><input id="id5" /></td>
+        <td><input id="name5" /></td>
+        <td><input id="kor5" /></td>
+        <td><input id="eng5" /></td>
+        <td><input id="math5" /></td>
+        <td><input id="total5" readonly /></td>
+        <td><input id="avg5" readonly /></td>
+      </tr>
+    </table>
+
+    <br />
+
+    <button onclick="calculate()">계산하기</button>
+
+    <h3>전체 평균</h3>
+    <input id="classAvg" readonly />
+
+    <script>
+      function calculate() {
+        /*
+      [문제]
+      1. 1번 ~ 5번 학생의 국어, 영어, 수학 점수를 읽어온다.
+      2. 각 학생의 총점을 계산하여 total1 ~ total5에 출력한다.
+      3. 각 학생의 평균을 계산하여 avg1 ~ avg5에 출력한다.
+      4. 5명 학생 평균의 평균을 계산하여 classAvg에 출력한다.
+
+      ※ 힌트:
+      - document.getElementById("kor1").value
+      - Number() 또는 parseInt() 사용
+      */
+
+        // ================== 초기화 ==================
+        // 학생 수
+        const student = document.getElementById("myTable").getElementsByTagName("tr").length - 1;
+        // 과목 리스트
+        const courses = ["kor", "eng", "math"];
+        // 모든 점수 합
+        let total_all = 0;
+
+        // ================== 학생별 total, avg 출력 ==================
+        for (let i = 1; i <= student; i++) {
+          // 점수를 읽고 총점 계산
+          total_score = add_score(i);
+
+          // 총 합계 더하기
+          total_all += total_score;
+
+          // 총점, 평균 출력
+          document.getElementById(`total${i}`).value = total_score;
+          document.getElementById(`avg${i}`).value = total_score / courses.length;
+        }
+
+        // 5명 학생 평균의 평균 출력
+        document.getElementById("classAvg").value = total_all / student;
+      }
+      // ================== 합 계산 ==================
+      // 학생 index를 받고
+      function add_score(num) {
+        let total_score = 0;
+        courses.forEach(
+          (course) =>
+            (total_score += Number(document.getElementById(course + num).value))
+        );
+        return total_score;
+      }
+    </script>
+  </body>
+</html>
